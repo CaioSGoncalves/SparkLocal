@@ -1,0 +1,70 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark\r\nval df1 \u003d spark.read.csv(\"/hdfs/test.csv\")\r\ndf1.printSchema\r\ndf1.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-18 23:28:23.797",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- _c0: string (nullable \u003d true)\n |-- _c1: string (nullable \u003d true)\n |-- _c2: string (nullable \u003d true)\n\n+---+---+---+\n|_c0|_c1|_c2|\n+---+---+---+\n|  1|  2|  3|\n|  5|  6|  7|\n+---+---+---+\n\n\u001b[1m\u001b[34mdf1\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [_c0: string, _c1: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597793287480_-1610599884",
+      "id": "paragraph_1597793287480_-1610599884",
+      "dateCreated": "2020-08-18 23:28:07.480",
+      "dateStarted": "2020-08-18 23:28:23.872",
+      "dateFinished": "2020-08-18 23:28:46.644",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-18 23:28:23.865",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597793303865_-1037142241",
+      "id": "paragraph_1597793303865_-1037142241",
+      "dateCreated": "2020-08-18 23:28:23.865",
+      "status": "READY"
+    }
+  ],
+  "name": "Test",
+  "id": "2FGRMXVTX",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
