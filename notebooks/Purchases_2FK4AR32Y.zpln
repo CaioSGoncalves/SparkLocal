@@ -1,0 +1,406 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark\n// Set purchase Table schema\nimport org.apache.spark.sql.types._\n\nval purchaseSchema \u003d StructType(Array(\n  StructField(\"purchase_id\", IntegerType, true),\n  StructField(\"user_id\", IntegerType, true),\n  StructField(\"product_id\", IntegerType, true),\n  StructField(\"quantity\", IntegerType, true),\n  StructField(\"timestamp\", DateType, true))\n)",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:44:08.965",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.types._\n\u001b[1m\u001b[34mpurchaseSchema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m \u003d StructType(StructField(purchase_id,IntegerType,true), StructField(user_id,IntegerType,true), StructField(product_id,IntegerType,true), StructField(quantity,IntegerType,true), StructField(timestamp,DateType,true))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597973860581_928931669",
+      "id": "paragraph_1597973860581_928931669",
+      "dateCreated": "2020-08-21 01:37:40.581",
+      "dateStarted": "2020-08-21 01:37:47.284",
+      "dateFinished": "2020-08-21 01:37:48.117",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Load Initial dataset from transient layer\nval initial_load \u003d spark.read.format(\"csv\")\n                             .option(\"header\", \"true\")\n                             .option(\"mode\", \"DROPMALFORMED\")\n                             .schema(purchaseSchema)\n                             .load(\"/hdfs/transient/purchase/initial_load.csv\")\ninitial_load.printSchema\ninitial_load.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:45:32.330",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- purchase_id: integer (nullable \u003d true)\n |-- user_id: integer (nullable \u003d true)\n |-- product_id: integer (nullable \u003d true)\n |-- quantity: integer (nullable \u003d true)\n |-- timestamp: date (nullable \u003d true)\n\n+-----------+-------+----------+--------+----------+\n|purchase_id|user_id|product_id|quantity| timestamp|\n+-----------+-------+----------+--------+----------+\n|          1|      1|         1|      10|2019-02-01|\n|          2|      2|         2|      20|2019-02-01|\n+-----------+-------+----------+--------+----------+\n\n\u001b[1m\u001b[34minitial_load\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [purchase_id: int, user_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597973867276_842174707",
+      "id": "paragraph_1597973867276_842174707",
+      "dateCreated": "2020-08-21 01:37:47.276",
+      "dateStarted": "2020-08-21 01:37:55.633",
+      "dateFinished": "2020-08-21 01:37:56.418",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Write Initial dataset to raw layer\ninitial_load.write.format(\"parquet\").mode(\"append\").save(\"/hdfs/raw/purchase/\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:44:47.594",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597973875626_-1502912845",
+      "id": "paragraph_1597973875626_-1502912845",
+      "dateCreated": "2020-08-21 01:37:55.627",
+      "dateStarted": "2020-08-21 01:40:59.474",
+      "dateFinished": "2020-08-21 01:41:07.348",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Show purchase table in raw layer\nval purchases \u003d spark.read.format(\"parquet\")\n                          .load(\"/hdfs/raw/purchase/\")\npurchases.printSchema\npurchases.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:46:03.201",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- purchase_id: integer (nullable \u003d true)\n |-- user_id: integer (nullable \u003d true)\n |-- product_id: integer (nullable \u003d true)\n |-- quantity: integer (nullable \u003d true)\n |-- timestamp: date (nullable \u003d true)\n\n+-----------+-------+----------+--------+----------+\n|purchase_id|user_id|product_id|quantity| timestamp|\n+-----------+-------+----------+--------+----------+\n|          1|      1|         1|      10|2019-02-01|\n|          2|      2|         2|      20|2019-02-01|\n+-----------+-------+----------+--------+----------+\n\n\u001b[1m\u001b[34mpurchases\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [purchase_id: int, user_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974059459_1113633392",
+      "id": "paragraph_1597974059459_1113633392",
+      "dateCreated": "2020-08-21 01:40:59.462",
+      "dateStarted": "2020-08-21 01:42:12.702",
+      "dateFinished": "2020-08-21 01:42:15.826",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Load Second dataset from transient layer\nval second_load \u003d spark.read.format(\"csv\")\n                             .option(\"header\", \"true\")\n                             .option(\"mode\", \"DROPMALFORMED\")\n                             .schema(purchaseSchema)\n                             .load(\"/hdfs/transient/purchase/second_load.csv\")\nsecond_load.printSchema\nsecond_load.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:45:42.398",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- purchase_id: integer (nullable \u003d true)\n |-- user_id: integer (nullable \u003d true)\n |-- product_id: integer (nullable \u003d true)\n |-- quantity: integer (nullable \u003d true)\n |-- timestamp: date (nullable \u003d true)\n\n+-----------+-------+----------+--------+----------+\n|purchase_id|user_id|product_id|quantity| timestamp|\n+-----------+-------+----------+--------+----------+\n|          1|      1|         1|       5|2019-02-02|\n|          2|      2|         2|      40|2019-02-02|\n+-----------+-------+----------+--------+----------+\n\n\u001b[1m\u001b[34msecond_load\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [purchase_id: int, user_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974132697_934057602",
+      "id": "paragraph_1597974132697_934057602",
+      "dateCreated": "2020-08-21 01:42:12.697",
+      "dateStarted": "2020-08-21 01:43:01.607",
+      "dateFinished": "2020-08-21 01:43:02.148",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Write Second dataset to raw layer\nsecond_load.write.format(\"parquet\").mode(\"append\").save(\"/hdfs/raw/purchase/\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:45:52.453",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974176858_521284150",
+      "id": "paragraph_1597974176858_521284150",
+      "dateCreated": "2020-08-21 01:42:56.863",
+      "dateStarted": "2020-08-21 01:43:22.703",
+      "dateFinished": "2020-08-21 01:43:23.492",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Show purchase table in raw layer\nval purchases \u003d spark.read.format(\"parquet\")\n                          .load(\"/hdfs/raw/purchase/\")\npurchases.printSchema\npurchases.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:46:07.586",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- purchase_id: integer (nullable \u003d true)\n |-- user_id: integer (nullable \u003d true)\n |-- product_id: integer (nullable \u003d true)\n |-- quantity: integer (nullable \u003d true)\n |-- timestamp: date (nullable \u003d true)\n\n+-----------+-------+----------+--------+----------+\n|purchase_id|user_id|product_id|quantity| timestamp|\n+-----------+-------+----------+--------+----------+\n|          1|      1|         1|       5|2019-02-02|\n|          2|      2|         2|      40|2019-02-02|\n|          1|      1|         1|      10|2019-02-01|\n|          2|      2|         2|      20|2019-02-01|\n+-----------+-------+----------+--------+----------+\n\n\u001b[1m\u001b[34mpurchases\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [purchase_id: int, user_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974202697_-1860647561",
+      "id": "paragraph_1597974202697_-1860647561",
+      "dateCreated": "2020-08-21 01:43:22.697",
+      "dateStarted": "2020-08-21 01:43:32.505",
+      "dateFinished": "2020-08-21 01:43:33.330",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// ETL from raw to processed\n\nval processed_purchases \u003d purchases\n                         .orderBy($\"timestamp\".desc)\n                         .dropDuplicates(\"purchase_id\")\n                         \nprocessed_purchases.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:11:55.239",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----------+-------+----------+--------+----------+\n|purchase_id|user_id|product_id|quantity| timestamp|\n+-----------+-------+----------+--------+----------+\n|          1|      1|         1|       5|2019-02-02|\n|          2|      2|         2|      40|2019-02-02|\n+-----------+-------+----------+--------+----------+\n\n\u001b[1m\u001b[34mprocessed_purchases\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [purchase_id: int, user_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974212502_865958932",
+      "id": "paragraph_1597974212502_865958932",
+      "dateCreated": "2020-08-21 01:43:32.502",
+      "dateStarted": "2020-08-21 02:11:55.268",
+      "dateFinished": "2020-08-21 02:11:57.296",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// ETL will overwrite all data in processed layer\nprocessed_purchases.write.format(\"parquet\").mode(\"overwrite\").save(\"/hdfs/processed/purchase/\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:11:59.820",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974666087_-611132762",
+      "id": "paragraph_1597974666087_-611132762",
+      "dateCreated": "2020-08-21 01:51:06.087",
+      "dateStarted": "2020-08-21 02:11:59.851",
+      "dateFinished": "2020-08-21 02:12:05.967",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Show purchase table in processed layer\nval processed_purchases \u003d spark.read.format(\"parquet\")\n                          .load(\"/hdfs/processed/purchase/\")\nprocessed_purchases.printSchema\nprocessed_purchases.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:12:09.573",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- purchase_id: integer (nullable \u003d true)\n |-- user_id: integer (nullable \u003d true)\n |-- product_id: integer (nullable \u003d true)\n |-- quantity: integer (nullable \u003d true)\n |-- timestamp: date (nullable \u003d true)\n\n+-----------+-------+----------+--------+----------+\n|purchase_id|user_id|product_id|quantity| timestamp|\n+-----------+-------+----------+--------+----------+\n|          1|      1|         1|       5|2019-02-02|\n|          2|      2|         2|      40|2019-02-02|\n+-----------+-------+----------+--------+----------+\n\n\u001b[1m\u001b[34mprocessed_purchases\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [purchase_id: int, user_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974841934_-1058124048",
+      "id": "paragraph_1597974841934_-1058124048",
+      "dateCreated": "2020-08-21 01:54:01.934",
+      "dateStarted": "2020-08-21 02:12:09.602",
+      "dateFinished": "2020-08-21 02:12:11.025",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:54:30.680",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974870680_688773775",
+      "id": "paragraph_1597974870680_688773775",
+      "dateCreated": "2020-08-21 01:54:30.680",
+      "status": "READY"
+    }
+  ],
+  "name": "Purchases",
+  "id": "2FK4AR32Y",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

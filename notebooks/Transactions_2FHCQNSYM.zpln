@@ -1,0 +1,484 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark\n// Set transactions Table schema\nimport org.apache.spark.sql.types._\n\nval transactionSchema \u003d StructType(Array(\n  StructField(\"user_id\", IntegerType, true),\n  StructField(\"type\", StringType, true),\n  StructField(\"value\", IntegerType, true))\n)",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:00:07.293",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.types._\n\u001b[1m\u001b[34mtransactionSchema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m \u003d StructType(StructField(user_id,IntegerType,true), StructField(type,StringType,true), StructField(value,IntegerType,true))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597974941773_674089787",
+      "id": "paragraph_1597974941773_674089787",
+      "dateCreated": "2020-08-21 01:55:41.773",
+      "dateStarted": "2020-08-21 01:59:00.343",
+      "dateFinished": "2020-08-21 01:59:00.706",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Load Initial dataset from transient layer\nval initial_load \u003d spark.read.format(\"csv\")\n                             .option(\"header\", \"true\")\n                             .option(\"mode\", \"DROPMALFORMED\")\n                             .schema(transactionSchema)\n                             .load(\"/hdfs/transient/transactions/initial_load.csv\")\ninitial_load.printSchema\ninitial_load.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:59:16.375",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- user_id: integer (nullable \u003d true)\n |-- type: string (nullable \u003d true)\n |-- value: integer (nullable \u003d true)\n\n+-------+--------+-----+\n|user_id|    type|value|\n+-------+--------+-----+\n|      1|DEPOSITO|  200|\n|      1|DEPOSITO|  100|\n|      2|DEPOSITO|  500|\n+-------+--------+-----+\n\n\u001b[1m\u001b[34minitial_load\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, type: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975052899_357246805",
+      "id": "paragraph_1597975052899_357246805",
+      "dateCreated": "2020-08-21 01:57:32.901",
+      "dateStarted": "2020-08-21 01:59:16.403",
+      "dateFinished": "2020-08-21 01:59:16.981",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Write Initial dataset to raw layer\ninitial_load.write.format(\"parquet\").mode(\"append\").save(\"/hdfs/raw/transactions/\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 01:59:44.567",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975080462_-545684708",
+      "id": "paragraph_1597975080462_-545684708",
+      "dateCreated": "2020-08-21 01:58:00.462",
+      "dateStarted": "2020-08-21 01:59:44.599",
+      "dateFinished": "2020-08-21 01:59:45.974",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Show transactions table in raw layer\nval transactions \u003d spark.read.format(\"parquet\")\n                          .load(\"/hdfs/raw/transactions/\")\ntransactions.printSchema\ntransactions.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:00:11.865",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- user_id: integer (nullable \u003d true)\n |-- type: string (nullable \u003d true)\n |-- value: integer (nullable \u003d true)\n\n+-------+--------+-----+\n|user_id|    type|value|\n+-------+--------+-----+\n|      1|DEPOSITO|  200|\n|      1|DEPOSITO|  100|\n|      2|DEPOSITO|  500|\n+-------+--------+-----+\n\n\u001b[1m\u001b[34mtransactions\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, type: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975184598_1307079131",
+      "id": "paragraph_1597975184598_1307079131",
+      "dateCreated": "2020-08-21 01:59:44.598",
+      "dateStarted": "2020-08-21 02:00:11.898",
+      "dateFinished": "2020-08-21 02:00:12.517",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Load Second dataset from transient layer\nval second_load \u003d spark.read.format(\"csv\")\n                             .option(\"header\", \"true\")\n                             .option(\"mode\", \"DROPMALFORMED\")\n                             .schema(transactionSchema)\n                             .load(\"/hdfs/transient/transactions/second_load.csv\")\nsecond_load.printSchema\nsecond_load.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:00:51.679",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- user_id: integer (nullable \u003d true)\n |-- type: string (nullable \u003d true)\n |-- value: integer (nullable \u003d true)\n\n+-------+--------+-----+\n|user_id|    type|value|\n+-------+--------+-----+\n|      1|   SAQUE|  150|\n|      2|DEPOSITO|  500|\n+-------+--------+-----+\n\n\u001b[1m\u001b[34msecond_load\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, type: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975211896_456366316",
+      "id": "paragraph_1597975211896_456366316",
+      "dateCreated": "2020-08-21 02:00:11.896",
+      "dateStarted": "2020-08-21 02:00:51.716",
+      "dateFinished": "2020-08-21 02:00:52.262",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Write Second dataset to raw layer\nsecond_load.write.format(\"parquet\").mode(\"append\").save(\"/hdfs/raw/transactions/\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:01:17.807",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975251707_1438494518",
+      "id": "paragraph_1597975251707_1438494518",
+      "dateCreated": "2020-08-21 02:00:51.707",
+      "dateStarted": "2020-08-21 02:01:17.887",
+      "dateFinished": "2020-08-21 02:01:18.684",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Show transactions table in raw layer\nval transactions \u003d spark.read.format(\"parquet\")\n                          .load(\"/hdfs/raw/transactions/\")\ntransactions.printSchema\ntransactions.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:01:31.895",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- user_id: integer (nullable \u003d true)\n |-- type: string (nullable \u003d true)\n |-- value: integer (nullable \u003d true)\n\n+-------+--------+-----+\n|user_id|    type|value|\n+-------+--------+-----+\n|      1|DEPOSITO|  200|\n|      1|DEPOSITO|  100|\n|      2|DEPOSITO|  500|\n|      1|   SAQUE|  150|\n|      2|DEPOSITO|  500|\n+-------+--------+-----+\n\n\u001b[1m\u001b[34mtransactions\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, type: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975277881_1757988958",
+      "id": "paragraph_1597975277881_1757988958",
+      "dateCreated": "2020-08-21 02:01:17.881",
+      "dateStarted": "2020-08-21 02:01:31.938",
+      "dateFinished": "2020-08-21 02:01:32.577",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\ntransactions.registerTempTable(\"raw_transactions\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:11:10.655",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0mthere was one deprecation warning; re-run with -deprecation for details\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975291929_-311254340",
+      "id": "paragraph_1597975291929_-311254340",
+      "dateCreated": "2020-08-21 02:01:31.929",
+      "dateStarted": "2020-08-21 02:04:18.227",
+      "dateFinished": "2020-08-21 02:04:21.632",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval preprocessed_transations \u003d spark.sql(\"\"\"\n    SELECT\n        user_id,\n        CASE\n            WHEN (type \u003d \u0027SAQUE\u0027) THEN -1 * value \n            ELSE value\n        END as value\n    FROM raw_transactions\n\n\"\"\")\n\npreprocessed_transations.show()\npreprocessed_transations.registerTempTable(\"preprocessed_transations\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:10:12.185",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0mthere was one deprecation warning; re-run with -deprecation for details\n+-------+-----+\n|user_id|value|\n+-------+-----+\n|      1|  200|\n|      1|  100|\n|      2|  500|\n|      1| -150|\n|      2|  500|\n+-------+-----+\n\n\u001b[1m\u001b[34mpreprocessed_transations\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, value: int]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975458224_1758832839",
+      "id": "paragraph_1597975458224_1758832839",
+      "dateCreated": "2020-08-21 02:04:18.225",
+      "dateStarted": "2020-08-21 02:10:12.212",
+      "dateFinished": "2020-08-21 02:10:12.807",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval processed_transations \u003d spark.sql(\"\"\"\n    SELECT\n        user_id,\n        SUM(value) as balance\n    FROM preprocessed_transations\n    GROUP BY user_id\n\n\"\"\")\n\nprocessed_transations.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:12:32.094",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+\n|user_id|balance|\n+-------+-------+\n|      1|    150|\n|      2|   1000|\n+-------+-------+\n\n\u001b[1m\u001b[34mprocessed_transations\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, balance: bigint]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975482794_899211276",
+      "id": "paragraph_1597975482794_899211276",
+      "dateCreated": "2020-08-21 02:04:42.794",
+      "dateStarted": "2020-08-21 02:12:32.124",
+      "dateFinished": "2020-08-21 02:12:34.240",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// ETL will overwrite all data in processed layer\nprocessed_transations.write.format(\"parquet\").mode(\"overwrite\").save(\"/hdfs/processed/transations/\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:12:35.755",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975816096_1023761799",
+      "id": "paragraph_1597975816096_1023761799",
+      "dateCreated": "2020-08-21 02:10:16.096",
+      "dateStarted": "2020-08-21 02:12:35.797",
+      "dateFinished": "2020-08-21 02:12:41.123",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// Show transations table in processed layer\nval processed_transations \u003d spark.read.format(\"parquet\")\n                          .load(\"/hdfs/processed/transations/\")\nprocessed_transations.printSchema\nprocessed_transations.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:12:56.805",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- user_id: integer (nullable \u003d true)\n |-- balance: long (nullable \u003d true)\n\n+-------+-------+\n|user_id|balance|\n+-------+-------+\n|      1|    150|\n|      2|   1000|\n+-------+-------+\n\n\u001b[1m\u001b[34mprocessed_transations\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [user_id: int, balance: bigint]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975955793_-1722302513",
+      "id": "paragraph_1597975955793_-1722302513",
+      "dateCreated": "2020-08-21 02:12:35.793",
+      "dateStarted": "2020-08-21 02:12:56.842",
+      "dateFinished": "2020-08-21 02:12:57.351",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-08-21 02:12:56.839",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1597975976839_-937115648",
+      "id": "paragraph_1597975976839_-937115648",
+      "dateCreated": "2020-08-21 02:12:56.839",
+      "status": "READY"
+    }
+  ],
+  "name": "Transactions",
+  "id": "2FHCQNSYM",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

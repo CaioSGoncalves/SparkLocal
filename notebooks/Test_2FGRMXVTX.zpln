@@ -42,7 +42,7 @@
     {
       "text": "%spark\n",
       "user": "anonymous",
-      "dateUpdated": "2020-08-18 23:28:23.865",
+      "dateUpdated": "2020-08-21 01:28:14.585",
       "config": {},
       "settings": {
         "params": {},
@@ -50,9 +50,9 @@
       },
       "apps": [],
       "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1597793303865_-1037142241",
-      "id": "paragraph_1597793303865_-1037142241",
-      "dateCreated": "2020-08-18 23:28:23.865",
+      "jobName": "paragraph_1597973294585_182484663",
+      "id": "paragraph_1597973294585_182484663",
+      "dateCreated": "2020-08-21 01:28:14.585",
       "status": "READY"
     }
   ],
